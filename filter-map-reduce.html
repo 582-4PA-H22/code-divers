@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemples d'utilisation des méthodes ***expressives*** de tableaux</title>
+</head>
+<body>
+    <p>Inspectez le code...</p>
+    <script>
+        
+        let fruits = [
+                "Orange", 
+                "Pomme", 
+                "Pamplemousse", 
+                "Banane", 
+                "Poire",
+                "Orange",
+                "Grenade",
+                "kiwi",
+                "Pomme",
+                "Pamplemousse",
+                "Orange",
+                "kiwi"
+            ];
+
+        let etudiants = [
+            {
+                nom: "Jean",
+                note: 72
+            },
+            {
+                nom: "Eugénie",
+                note: 80
+            },
+            {
+                nom: "Sylvie",
+                note: 50
+            },
+            {
+                nom: "Paul",
+                note: 65
+            },
+            {
+                nom: "Hector",
+                note: 32
+            }
+        ]
+
+        // Méthode filter() : retourne un nouveau tableau filtré à partir d'un tableau original
+
+        // Exemple 1 : retourner un tableau qui contient uniquement les fruits qui commence par la lettre P
+        let fruitsP = fruits.filter(f => f.startsWith('P'));
+        console.log('Le tableau des fruits qui commencent par P : ', fruitsP);
+
+        // Exemple 2 : retourner un tableau contenant les étudiants qui ont échoué
+        console.log('Tableau des étudiants avec echec : ',
+            etudiants.filter(etu => etu.note < 60)
+        );
+        // Remarquez que le tableau etudiants n'est pas touché !
+        console.log("Le tableau 'etudiants' n'est pas modifié : ", etudiants);
+
+        // Méthode map() : retourne un nouveau tableau obtenu en modifiant les éléments d'un tableau original
+        
+        // Exemple 1 : ajouter un commentaire aux étudiants en situation d'échec
+        let etudiantsAvecCommentaire = 
+            etudiants.map(function(etudiant) {
+                if(etudiant.note < 60) {
+                    etudiant.commentaire = "Attention : risque d'échec !";
+                }
+                return etudiant;
+            });
+        console.log("Etudiants avec commentaires : ", etudiantsAvecCommentaire);
+
+        // Exemple 2 : retourner uniquement les notes des étudiants
+        console.log("Tableau des notes des étudiants : ", 
+            etudiants.map( etu => etu.note )
+        );
+
+        // Méthode reduce() : manipule de façon itérative les éléments d'un tableau et retourne une valeur
+
+        // Exemple 1 : retourner la moyenne de la classe
+        console.log("Moyenne des notes : ", 
+            etudiants.reduce(function(accumulateur, etudiantCourant) {
+                return accumulateur + etudiantCourant.note
+            }, 0)/etudiants.length
+        );
+        // Exemple 1 (avec fonction fléchée)
+        console.log("Moyenne des notes : ", 
+            etudiants.reduce((acc, courant) => acc + courant.note, 0)/etudiants.length
+        );
+        
+        // Exemple 2 : retiurner un objet contenant le nombres de fois que chaque fruit apparaît dans le tableau fruits
+        console.log("Occurences des fruits : ",
+            fruits.reduce((acc, courante) => {
+                acc[courante] = (acc[courante]) ? acc[courante] + 1 : 1;
+                return acc;
+            }, {})
+        );
+
+        // Exemple 3 : retourner un tableau contenant les fruits uniques
+        console.log("Les fruits uniques : ", 
+            fruits.reduce((acc, courante) => {
+                if(!acc.includes(courante)) {
+                    acc.push(courante);
+                }
+                return acc;
+            }, [])
+        );
+
+    </script>
+</body>
+</html>

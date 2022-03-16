@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemples de code asynchrone en JS</title>
+</head>
+<body>
+    
+    <h3>Consultez la console</h3>
+
+    <script>
+        let urlFakeStoreAPI = 'https://fakestoreapi.com/users?limit=5';
+
+        // Méthode 1 : callback
+        // Syntaxe Ajax traditionnelle : objet XMLHttpRequest et une fonction de rappel
+        function testCodeAsyncAvecFonctionRappel() {
+            let xhr = new XMLHttpRequest();
+            xhr.responseType = 'json';
+            xhr.open('get', urlFakeStoreAPI);
+            xhr.onload = gererLaReponse; // Je réfère à une fonction de rappel (callback)
+            xhr.send();
+
+            function gererLaReponse() {
+                console.log(xhr.response);
+            }
+        }
+        // Test
+        // testCodeAsyncAvecFonctionRappel();
+
+        // Méthode 2 : promise
+        // API fetch() de JavaScript : méthode moderne qui retourne un objet 
+        // "promesse" JS qui permet de gérer le code asynchrone
+        function testCodeAsyncAvecPromesse() {
+            fetch(urlFakeStoreAPI).then(
+                reponse => reponse.json()
+            ).then(
+                reponseJSON => console.log("Réponse JSON : ", reponseJSON)
+            )
+            .catch(
+                erreur => console.log("Erreur retournée par fetch : ", erreur)
+            );
+        }
+
+        // Test méthode 2 : 
+        // testCodeAsyncAvecPromesse();
+
+        // Méthode 3 : promise (mais avec le "maquillage" async/await)
+        // API fetch() de JavaScript : méthode moderne qui retourne un objet 
+        // "promesse" JS qui permet de gérer le code asynchrone
+        async function testCodeAsyncAvecAwait() {
+            let reponse = await fetch(urlFakeStoreAPI);
+            let reponseJSON = await reponse.json();
+            console.log("La réponse JSON du serveur est : ", reponseJSON);
+        }
+
+        // Test méthode 3 : 
+        testCodeAsyncAvecAwait();
+    </script>
+</body>
+</html>
